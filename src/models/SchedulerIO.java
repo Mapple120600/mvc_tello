@@ -111,4 +111,37 @@ public class SchedulerIO implements Model
 		
 		return response;
 	}
+	public void removeEvents(List<Integer> indexes) throws Exception
+	{
+		List<String> lines = new ArrayList<>();
+
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(new File(DIRECTORY, FILE)));
+			String line = reader.readLine();
+
+			while (line != null) {
+				lines.add(line);
+				line = reader.readLine();
+			}
+
+			reader.close();
+
+			BufferedWriter writer = new BufferedWriter(new FileWriter(new File(DIRECTORY, FILE), false));
+
+			for (int i = 0; i < lines.size(); i++) {
+				if (!indexes.contains(i)) {
+					writer.write(lines.get(i));
+					writer.newLine();
+				}
+			}
+
+			writer.close();
+		} catch (FileNotFoundException fnfe) {
+			notice = "File not found";
+			notifyViews();
+		} catch (Exception ex) {
+			notice = "Error while removing events";
+			notifyViews();
+		}
+	}
 }

@@ -90,4 +90,15 @@ public class EventListController extends Controller
 
 		return dataColumns;
 	}
+
+	public void reloadTable()
+	{
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.setRowCount(0);
+
+		Vector<Vector<Object>> rows = getDataColumns();
+		for (Vector<Object> row : rows) {
+			model.addRow(row);
+		}
+	}
 }
